@@ -6,6 +6,7 @@ using Abp.Domain.Uow;
 using Abp.Modules;
 using Abp.Runtime.Session;
 using Abp.TestBase.Runtime.Session;
+using DryIoc;
 
 namespace Abp.TestBase
 {
@@ -30,6 +31,16 @@ namespace Abp.TestBase
         protected AbpIntegratedTestBase(bool initializeAbp = true, IIocManager localIocManager = null)
         {
             LocalIocManager = localIocManager ?? new IocManager();
+
+            if (localIocManager == null)
+			{
+                var newContainer = new Container(rules =>
+                    rules.WithAutoConcreteTypeResolution()
+                        .WithCaptureContainerDisposeStackTrace()
+                        .WithoutThrowOnRegisteringDisposableTransient());
+
+                LocalIocManager.InitializeInternalContainer(newContainer);
+            }
 
             AbpBootstrapper = AbpBootstrapper.Create<TStartupModule>(options =>
             {
@@ -96,7 +107,7 @@ namespace Abp.TestBase
         /// <typeparam name="T">Type of the object to get</typeparam>
         /// <param name="argumentsAsAnonymousType">Constructor arguments</param>
         /// <returns>The object instance</returns>
-        protected T Resolve<T>(object argumentsAsAnonymousType)
+        protected T Resolve<T>(object[] argumentsAsAnonymousType)
         {
             EnsureClassRegistered(typeof(T));
             return LocalIocManager.Resolve<T>(argumentsAsAnonymousType);
@@ -121,7 +132,7 @@ namespace Abp.TestBase
         /// <param name="type">Type of the object to get</param>
         /// <param name="argumentsAsAnonymousType">Constructor arguments</param>
         /// <returns>The object instance</returns>
-        protected object Resolve(Type type, object argumentsAsAnonymousType)
+        protected object Resolve(Type type, object[] argumentsAsAnonymousType)
         {
             EnsureClassRegistered(type);
             return LocalIocManager.Resolve(type, argumentsAsAnonymousType);

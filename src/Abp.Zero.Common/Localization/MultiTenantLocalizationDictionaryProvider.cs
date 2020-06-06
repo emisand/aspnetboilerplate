@@ -84,11 +84,7 @@ namespace Abp.Localization
                 _internalProvider.Dictionaries.GetOrDefault(language.Name) ??
                 new EmptyDictionary(CultureInfo.GetCultureInfo(language.Name));
 
-            var dictionary =  _iocManager.Resolve<IMultiTenantLocalizationDictionary>(new
-            {
-                sourceName = _sourceName,
-                internalDictionary = internalDictionary
-            });
+            var dictionary = _iocManager.Resolve<IMultiTenantLocalizationDictionary>(new object[] { _sourceName, internalDictionary });
 
             return dictionary;
         }

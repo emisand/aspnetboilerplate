@@ -1,64 +1,63 @@
+using Abp.Dependency;
+using System;
 using System.Linq;
 using System.Reflection;
-using Abp.Dependency;
-using Castle.Core;
-using Castle.MicroKernel;
 
 namespace Abp.Domain.Uow
 {
-    /// <summary>
-    /// This class is used to register interceptor for needed classes for Unit Of Work mechanism.
-    /// </summary>
-    internal static class UnitOfWorkRegistrar
-    {
-        /// <summary>
-        /// Initializes the registerer.
-        /// </summary>
-        /// <param name="iocManager">IOC manager</param>
-        public static void Initialize(IIocManager iocManager)
-        {
-            iocManager.IocContainer.Kernel.ComponentRegistered += (key, handler) =>
-            {
-                var implementationType = handler.ComponentModel.Implementation.GetTypeInfo();
+	/// <summary>
+	/// This class is used to register interceptor for needed classes for Unit Of Work mechanism.
+	/// </summary>
+	internal static class UnitOfWorkRegistrar
+	{
+		/// <summary>
+		/// Initializes the registerer.
+		/// </summary>
+		/// <param name="iocManager">IOC manager</param>
+		public static void Initialize(IIocManager iocManager)
+		{
+			iocManager.RegisterTypeEventHandler += (manager, type, implementationType) =>
+			{
+				var implementationTypeInfo = implementationType.GetTypeInfo();
 
-                HandleTypesWithUnitOfWorkAttribute(implementationType, handler);
-                HandleConventionalUnitOfWorkTypes(iocManager, implementationType, handler);
-            };
-        }
+				HandleTypesWithUnitOfWorkAttribute(iocManager, type, implementationTypeInfo);
+				HandleConventionalUnitOfWorkTypes(iocManager, type, implementationTypeInfo);
+			};
+		}
 
-        private static void HandleTypesWithUnitOfWorkAttribute(TypeInfo implementationType, IHandler handler)
-        {
-            if (IsUnitOfWorkType(implementationType) || AnyMethodHasUnitOfWork(implementationType))
-            {
-                handler.ComponentModel.Interceptors.Add(new InterceptorReference(typeof(AbpAsyncDeterminationInterceptor<UnitOfWorkInterceptor>)));
-            }
-        }
+		private static void HandleTypesWithUnitOfWorkAttribute(IIocManager iocManager, Type serviceType, TypeInfo implementationType)
+		{
+			if (IsUnitOfWorkType(implementationType) || AnyMethodHasUnitOfWork(implementationType))
+			{
+				iocManager.AddInterceptor(serviceType, typeof(UnitOfWorkInterceptor));
+			}
+		}
 
-        private static void HandleConventionalUnitOfWorkTypes(IIocManager iocManager, TypeInfo implementationType, IHandler handler)
-        {
-            if (!iocManager.IsRegistered<IUnitOfWorkDefaultOptions>())
-            {
-                return;
-            }
+		private static void HandleConventionalUnitOfWorkTypes(IIocManager iocManager, Type serviceType, TypeInfo implementationType)
+		{
+			if (!iocManager.IsRegistered<IUnitOfWorkDefaultOptions>())
+			{
+				return;
+			}
 
-            var uowOptions = iocManager.Resolve<IUnitOfWorkDefaultOptions>();
+			var uowOptions = iocManager.Resolve<IUnitOfWorkDefaultOptions>();
 
-            if (uowOptions.IsConventionalUowClass(implementationType.AsType()))
-            {
-                handler.ComponentModel.Interceptors.Add(new InterceptorReference(typeof(AbpAsyncDeterminationInterceptor<UnitOfWorkInterceptor>)));
-            }
-        }
+			if (uowOptions.IsConventionalUowClass(implementationType.AsType()))
+			{
+				iocManager.AddInterceptor(serviceType, typeof(UnitOfWorkInterceptor));
+			}
+		}
 
-        private static bool IsUnitOfWorkType(TypeInfo implementationType)
-        {
-            return UnitOfWorkHelper.HasUnitOfWorkAttribute(implementationType);
-        }
+		private static bool IsUnitOfWorkType(TypeInfo implementationType)
+		{
+			return UnitOfWorkHelper.HasUnitOfWorkAttribute(implementationType);
+		}
 
-        private static bool AnyMethodHasUnitOfWork(TypeInfo implementationType)
-        {
-            return implementationType
-                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                .Any(UnitOfWorkHelper.HasUnitOfWorkAttribute);
-        }
-    }
+		private static bool AnyMethodHasUnitOfWork(TypeInfo implementationType)
+		{
+			return implementationType
+				.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+				.Any(UnitOfWorkHelper.HasUnitOfWorkAttribute);
+		}
+	}
 }

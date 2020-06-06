@@ -3,7 +3,7 @@ using Abp.EntityFrameworkCore;
 using Abp.Modules;
 using Abp.MultiTenancy;
 using Abp.Reflection.Extensions;
-using Castle.MicroKernel.Registration;
+using DryIoc;
 
 namespace Abp.Zero.EntityFrameworkCore
 {
@@ -15,19 +15,22 @@ namespace Abp.Zero.EntityFrameworkCore
     {
         public override void PreInitialize()
         {
-            Configuration.ReplaceService(typeof(IConnectionStringResolver), () =>
-            {
-                IocManager.IocContainer.Register(
-                    Component.For<IConnectionStringResolver, IDbPerTenantConnectionStringResolver>()
-                        .ImplementedBy<DbPerTenantConnectionStringResolver>()
-                        .LifestyleTransient()
-                    );
-            });
+            Configuration.ReplaceService(typeof(IConnectionStringResolver),
+                () =>
+                {
+                    IocManager.IocContainer.RegisterMany(new[]
+                        {
+                            typeof(IConnectionStringResolver),
+                            typeof(IDbPerTenantConnectionStringResolver)
+                        },
+                        typeof(DbPerTenantConnectionStringResolver),
+                        Reuse.Transient);
+                });
         }
 
         public override void Initialize()
         {
-            IocManager.RegisterAssemblyByConvention(typeof(AbpZeroCoreEntityFrameworkCoreModule).GetAssembly());
+            IocManager.RegisterAssemblyByConvention(typeof(AbpZeroCoreEntityFrameworkCoreModule).Assembly);
         }
     }
 }

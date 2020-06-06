@@ -31,7 +31,7 @@ namespace Abp.Dependency
         /// <typeparam name="T">Type of the object to get</typeparam>
         /// <param name="argumentsAsAnonymousType">Constructor arguments</param>
         /// <returns>The object instance</returns>
-        T Resolve<T>(object argumentsAsAnonymousType);
+        T Resolve<T>(object[] argumentsAsAnonymousType);
 
         /// <summary>
         /// Gets an object from IOC container.
@@ -48,7 +48,7 @@ namespace Abp.Dependency
         /// <param name="type">Type of the object to get</param>
         /// <param name="argumentsAsAnonymousType">Constructor arguments</param>
         /// <returns>The object instance</returns>
-        object Resolve(Type type, object argumentsAsAnonymousType);
+        object Resolve(Type type, object[] argumentsAsAnonymousType);
 
         /// <summary>
         /// Gets all implementations for given type.
@@ -65,7 +65,7 @@ namespace Abp.Dependency
         /// <typeparam name="T">Type of the objects to resolve</typeparam>
         /// <param name="argumentsAsAnonymousType">Constructor arguments</param>
         /// <returns>Object instances</returns>
-        T[] ResolveAll<T>(object argumentsAsAnonymousType);
+        T[] ResolveAll<T>(object[] argumentsAsAnonymousType);
 
         /// <summary>
         /// Gets all implementations for given type.
@@ -82,7 +82,7 @@ namespace Abp.Dependency
         /// <param name="type">Type of the objects to resolve</param>
         /// <param name="argumentsAsAnonymousType">Constructor arguments</param>
         /// <returns>Object instances</returns>
-        object[] ResolveAll(Type type, object argumentsAsAnonymousType);
+        object[] ResolveAll(Type type, object[] argumentsAsAnonymousType);
 
         /// <summary>
         /// Releases a pre-resolved object. See Resolve methods.

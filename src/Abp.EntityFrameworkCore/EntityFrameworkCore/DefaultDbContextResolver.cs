@@ -41,15 +41,15 @@ namespace Abp.EntityFrameworkCore
             {
                 if (isAbstractDbContext)
                 {
-                    return (TDbContext) _iocResolver.Resolve(concreteType, new
+                    return (TDbContext)_iocResolver.Resolve(concreteType, new object[]
                     {
-                        options = CreateOptionsForType(concreteType, connectionString, existingConnection)
+                        CreateOptionsForType(concreteType, connectionString, existingConnection)
                     });
                 }
 
-                return _iocResolver.Resolve<TDbContext>(new
+                return _iocResolver.Resolve<TDbContext>(new object[]
                 {
-                    options = CreateOptions<TDbContext>(connectionString, existingConnection)
+                    CreateOptions<TDbContext>(connectionString, existingConnection)
                 });
             }
             catch (Castle.MicroKernel.Resolvers.DependencyResolverException ex)

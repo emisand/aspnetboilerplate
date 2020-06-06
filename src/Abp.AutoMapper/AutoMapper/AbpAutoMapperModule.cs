@@ -6,6 +6,7 @@ using Abp.Modules;
 using Abp.Reflection;
 using AutoMapper;
 using Castle.MicroKernel.Registration;
+using DryIoc;
 
 namespace Abp.AutoMapper
 {
@@ -45,14 +46,10 @@ namespace Abp.AutoMapper
             };
 
             var config = new MapperConfiguration(configurer);
-            IocManager.IocContainer.Register(
-                Component.For<IConfigurationProvider>().Instance(config).LifestyleSingleton()
-            );
+            IocManager.IocContainer.UseInstance<IConfigurationProvider>(config);
 
             var mapper = config.CreateMapper();
-            IocManager.IocContainer.Register(
-                Component.For<IMapper>().Instance(mapper).LifestyleSingleton()
-            );
+            IocManager.IocContainer.UseInstance<IMapper>(mapper);
             AbpEmulateAutoMapper.Mapper = mapper;
         }
 

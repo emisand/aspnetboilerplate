@@ -22,7 +22,7 @@ namespace Abp.Runtime.Caching.Redis
 
         protected override ICache CreateCacheImplementation(string name)
         {
-            return _iocManager.Resolve<AbpRedisCache>(new { name });
+            return _iocManager.Resolve<AbpRedisCache>(new object[] { name });
         }
         protected override void DisposeCaches()
         {

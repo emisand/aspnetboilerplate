@@ -25,7 +25,7 @@ namespace Abp.Dependency
             return (T)Resolve(type);
         }
 
-        public T Resolve<T>(object argumentsAsAnonymousType)
+        public T Resolve<T>(object[] argumentsAsAnonymousType)
         {
             return (T)Resolve(typeof(T), argumentsAsAnonymousType);
         }
@@ -35,7 +35,7 @@ namespace Abp.Dependency
             return Resolve(type, null);
         }
 
-        public object Resolve(Type type, object argumentsAsAnonymousType)
+        public object Resolve(Type type, object[] argumentsAsAnonymousType)
         {
             var resolvedObject = argumentsAsAnonymousType != null
                 ? _iocResolver.Resolve(type, argumentsAsAnonymousType)
@@ -50,7 +50,7 @@ namespace Abp.Dependency
             return ResolveAll(typeof(T)).OfType<T>().ToArray();
         }
 
-        public T[] ResolveAll<T>(object argumentsAsAnonymousType)
+        public T[] ResolveAll<T>(object[] argumentsAsAnonymousType)
         {
             return ResolveAll(typeof(T), argumentsAsAnonymousType).OfType<T>().ToArray();
         }
@@ -60,7 +60,7 @@ namespace Abp.Dependency
             return ResolveAll(type, null);
         }
 
-        public object[] ResolveAll(Type type, object argumentsAsAnonymousType)
+        public object[] ResolveAll(Type type, object[] argumentsAsAnonymousType)
         {
             var resolvedObjects = argumentsAsAnonymousType != null
                 ? _iocResolver.ResolveAll(type, argumentsAsAnonymousType)

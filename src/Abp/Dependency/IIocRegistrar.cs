@@ -1,3 +1,4 @@
+using Castle.DynamicProxy;
 using System;
 using System.Reflection;
 
@@ -28,11 +29,26 @@ namespace Abp.Dependency
         void RegisterAssemblyByConvention(Assembly assembly, ConventionalRegistrationConfig config);
 
         /// <summary>
+        /// Add an interceptor for the specified type
+        /// </summary>
+        /// <typeparam name="TService">Service Type</typeparam>
+        /// <typeparam name="TInterceptor">Interceptor Type</typeparam>
+        void AddInterceptor<TService, TInterceptor>() where TInterceptor : IInterceptor;
+
+        /// <summary>
+        /// Add an interceptor for the specified type
+        /// </summary>
+        /// <param name="serviceType">Service Type</param>
+        /// <param name="interceptorType">Interceptor Type</param>
+        void AddInterceptor(Type serviceType, Type interceptorType);
+
+        /// <summary>
         /// Registers a type as self registration.
         /// </summary>
         /// <typeparam name="T">Type of the class</typeparam>
         /// <param name="lifeStyle">Lifestyle of the objects of this type</param>
-        void Register<T>(DependencyLifeStyle lifeStyle = DependencyLifeStyle.Singleton)
+        /// <param name="isAutoInjectProperty">Specifies if property injection is being used</param>
+        void Register<T>(DependencyLifeStyle lifeStyle = DependencyLifeStyle.Singleton, bool isAutoInjectProperty = false)
             where T : class;
 
         /// <summary>
@@ -40,7 +56,8 @@ namespace Abp.Dependency
         /// </summary>
         /// <param name="type">Type of the class</param>
         /// <param name="lifeStyle">Lifestyle of the objects of this type</param>
-        void Register(Type type, DependencyLifeStyle lifeStyle = DependencyLifeStyle.Singleton);
+        /// <param name="isAutoInjectProperty">Specifies if property injection is being used</param>
+        void Register(Type type, DependencyLifeStyle lifeStyle = DependencyLifeStyle.Singleton, bool isAutoInjectProperty = false);
 
         /// <summary>
         /// Registers a type with it's implementation.
@@ -48,7 +65,8 @@ namespace Abp.Dependency
         /// <typeparam name="TType">Registering type</typeparam>
         /// <typeparam name="TImpl">The type that implements <typeparamref name="TType"/></typeparam>
         /// <param name="lifeStyle">Lifestyle of the objects of this type</param>
-        void Register<TType, TImpl>(DependencyLifeStyle lifeStyle = DependencyLifeStyle.Singleton)
+        /// <param name="isAutoInjectProperty">Specifies if property injection is being used</param>
+        void Register<TType, TImpl>(DependencyLifeStyle lifeStyle = DependencyLifeStyle.Singleton, bool isAutoInjectProperty = false)
             where TType : class
             where TImpl : class, TType;
 
@@ -58,7 +76,8 @@ namespace Abp.Dependency
         /// <param name="type">Type of the class</param>
         /// <param name="impl">The type that implements <paramref name="type"/></param>
         /// <param name="lifeStyle">Lifestyle of the objects of this type</param>
-        void Register(Type type, Type impl, DependencyLifeStyle lifeStyle = DependencyLifeStyle.Singleton);
+        /// <param name="isAutoInjectProperty">Specifies if property injection is being used</param>
+        void Register(Type type, Type impl, DependencyLifeStyle lifeStyle = DependencyLifeStyle.Singleton, bool isAutoInjectProperty = false);
 
         /// <summary>
         /// Checks whether given type is registered before.

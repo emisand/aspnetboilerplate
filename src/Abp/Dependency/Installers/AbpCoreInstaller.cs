@@ -13,43 +13,39 @@ using Abp.Reflection;
 using Abp.Resources.Embedded;
 using Abp.Runtime.Caching.Configuration;
 using Abp.Webhooks;
-using Castle.MicroKernel.Registration;
-using Castle.MicroKernel.SubSystems.Configuration;
-using Castle.Windsor;
+using DryIoc;
 
 namespace Abp.Dependency.Installers
 {
-    internal class AbpCoreInstaller : IWindsorInstaller
-    {
-        public void Install(IWindsorContainer container, IConfigurationStore store)
-        {
-            container.Register(
-                Component.For<IUnitOfWorkDefaultOptions, UnitOfWorkDefaultOptions>().ImplementedBy<UnitOfWorkDefaultOptions>().LifestyleSingleton(),
-                Component.For<INavigationConfiguration, NavigationConfiguration>().ImplementedBy<NavigationConfiguration>().LifestyleSingleton(),
-                Component.For<ILocalizationConfiguration, LocalizationConfiguration>().ImplementedBy<LocalizationConfiguration>().LifestyleSingleton(),
-                Component.For<IAuthorizationConfiguration, AuthorizationConfiguration>().ImplementedBy<AuthorizationConfiguration>().LifestyleSingleton(),
-                Component.For<IValidationConfiguration, ValidationConfiguration>().ImplementedBy<ValidationConfiguration>().LifestyleSingleton(),
-                Component.For<IFeatureConfiguration, FeatureConfiguration>().ImplementedBy<FeatureConfiguration>().LifestyleSingleton(),
-                Component.For<ISettingsConfiguration, SettingsConfiguration>().ImplementedBy<SettingsConfiguration>().LifestyleSingleton(),
-                Component.For<IModuleConfigurations, ModuleConfigurations>().ImplementedBy<ModuleConfigurations>().LifestyleSingleton(),
-                Component.For<IEventBusConfiguration, EventBusConfiguration>().ImplementedBy<EventBusConfiguration>().LifestyleSingleton(),
-                Component.For<IMultiTenancyConfig, MultiTenancyConfig>().ImplementedBy<MultiTenancyConfig>().LifestyleSingleton(),
-                Component.For<ICachingConfiguration, CachingConfiguration>().ImplementedBy<CachingConfiguration>().LifestyleSingleton(),
-                Component.For<IAuditingConfiguration, AuditingConfiguration>().ImplementedBy<AuditingConfiguration>().LifestyleSingleton(),
-                Component.For<IBackgroundJobConfiguration, BackgroundJobConfiguration>().ImplementedBy<BackgroundJobConfiguration>().LifestyleSingleton(),
-                Component.For<INotificationConfiguration, NotificationConfiguration>().ImplementedBy<NotificationConfiguration>().LifestyleSingleton(),
-                Component.For<IEmbeddedResourcesConfiguration, EmbeddedResourcesConfiguration>().ImplementedBy<EmbeddedResourcesConfiguration>().LifestyleSingleton(),
-                Component.For<IAbpStartupConfiguration, AbpStartupConfiguration>().ImplementedBy<AbpStartupConfiguration>().LifestyleSingleton(),
-                Component.For<IEntityHistoryConfiguration, EntityHistoryConfiguration>().ImplementedBy<EntityHistoryConfiguration>().LifestyleSingleton(),
-                Component.For<ITypeFinder, TypeFinder>().ImplementedBy<TypeFinder>().LifestyleSingleton(),
-                Component.For<IAbpPlugInManager, AbpPlugInManager>().ImplementedBy<AbpPlugInManager>().LifestyleSingleton(),
-                Component.For<IAbpModuleManager, AbpModuleManager>().ImplementedBy<AbpModuleManager>().LifestyleSingleton(),
-                Component.For<IAssemblyFinder, AbpAssemblyFinder>().ImplementedBy<AbpAssemblyFinder>().LifestyleSingleton(),
-                Component.For<ILocalizationManager, LocalizationManager>().ImplementedBy<LocalizationManager>().LifestyleSingleton(),
-                Component.For<IWebhooksConfiguration, WebhooksConfiguration>().ImplementedBy<WebhooksConfiguration>().LifestyleSingleton(),
-                Component.For<IDynamicEntityParameterDefinitionContext, DynamicEntityParameterDefinitionContext>().ImplementedBy<DynamicEntityParameterDefinitionContext>().LifestyleTransient(),
-                Component.For<IDynamicEntityParameterConfiguration, DynamicEntityParameterConfiguration>().ImplementedBy<DynamicEntityParameterConfiguration>().LifestyleSingleton()
-                );
-        }
-    }
+	internal class AbpCoreInstaller : IDryIocInstaller
+	{
+		public void Install(IIocManager iocManager)
+		{
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IUnitOfWorkDefaultOptions), typeof(UnitOfWorkDefaultOptions) }, typeof(UnitOfWorkDefaultOptions), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(INavigationConfiguration), typeof(NavigationConfiguration) }, typeof(NavigationConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(ILocalizationConfiguration), typeof(LocalizationConfiguration) }, typeof(LocalizationConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IAuthorizationConfiguration), typeof(AuthorizationConfiguration) }, typeof(AuthorizationConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IValidationConfiguration), typeof(ValidationConfiguration) }, typeof(ValidationConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IFeatureConfiguration), typeof(FeatureConfiguration) }, typeof(FeatureConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(ISettingsConfiguration), typeof(SettingsConfiguration) }, typeof(SettingsConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IModuleConfigurations), typeof(ModuleConfigurations) }, typeof(ModuleConfigurations), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IEventBusConfiguration), typeof(EventBusConfiguration) }, typeof(EventBusConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IMultiTenancyConfig), typeof(MultiTenancyConfig) }, typeof(MultiTenancyConfig), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(ICachingConfiguration), typeof(CachingConfiguration) }, typeof(CachingConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IAuditingConfiguration), typeof(AuditingConfiguration) }, typeof(AuditingConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IBackgroundJobConfiguration), typeof(BackgroundJobConfiguration) }, typeof(BackgroundJobConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(INotificationConfiguration), typeof(NotificationConfiguration) }, typeof(NotificationConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IEmbeddedResourcesConfiguration), typeof(EmbeddedResourcesConfiguration) }, typeof(EmbeddedResourcesConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IAbpStartupConfiguration), typeof(AbpStartupConfiguration) }, typeof(AbpStartupConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IEntityHistoryConfiguration), typeof(EntityHistoryConfiguration) }, typeof(EntityHistoryConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(ITypeFinder), typeof(TypeFinder) }, typeof(TypeFinder), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IAbpPlugInManager), typeof(AbpPlugInManager) }, typeof(AbpPlugInManager), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IAbpModuleManager), typeof(AbpModuleManager) }, typeof(AbpModuleManager), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IAssemblyFinder), typeof(AbpAssemblyFinder) }, typeof(AbpAssemblyFinder), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(ILocalizationManager), typeof(LocalizationManager) }, typeof(LocalizationManager), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IWebhooksConfiguration), typeof(WebhooksConfiguration) }, typeof(WebhooksConfiguration), Reuse.Singleton);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IDynamicEntityParameterDefinitionContext), typeof(DynamicEntityParameterDefinitionContext) }, typeof(DynamicEntityParameterDefinitionContext), Reuse.Transient);
+			iocManager.IocContainer.RegisterMany(new[] { typeof(IDynamicEntityParameterConfiguration), typeof(DynamicEntityParameterConfiguration) }, typeof(DynamicEntityParameterConfiguration), Reuse.Singleton);
+		}
+	}
 }
