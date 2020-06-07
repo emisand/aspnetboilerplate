@@ -12,7 +12,7 @@ namespace Abp.Runtime.Validation.Interception
 			{
 				if (typeof(IApplicationService).GetTypeInfo().IsAssignableFrom(implementationType))
 				{
-					manager.AddInterceptor(type, typeof(ValidationInterceptor));
+					manager.AddAsyncInterceptor(type, typeof(ValidationInterceptor));
 				}
 			};
 		}

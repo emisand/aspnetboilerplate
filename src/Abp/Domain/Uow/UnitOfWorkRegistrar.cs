@@ -29,7 +29,7 @@ namespace Abp.Domain.Uow
 		{
 			if (IsUnitOfWorkType(implementationType) || AnyMethodHasUnitOfWork(implementationType))
 			{
-				iocManager.AddInterceptor(serviceType, typeof(UnitOfWorkInterceptor));
+				iocManager.AddAsyncInterceptor(serviceType, typeof(UnitOfWorkInterceptor));
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Abp.Domain.Uow
 
 			if (uowOptions.IsConventionalUowClass(implementationType.AsType()))
 			{
-				iocManager.AddInterceptor(serviceType, typeof(UnitOfWorkInterceptor));
+				iocManager.AddAsyncInterceptor(serviceType, typeof(UnitOfWorkInterceptor));
 			}
 		}
 

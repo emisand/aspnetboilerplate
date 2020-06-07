@@ -17,7 +17,7 @@ namespace Abp.Authorization
 			{
 				if (ShouldIntercept(implementationType))
 				{
-					iocManager.AddInterceptor(type, typeof(AuthorizationInterceptor));
+					iocManager.AddAsyncInterceptor(type, typeof(AuthorizationInterceptor));
 				}
 			};
 		}

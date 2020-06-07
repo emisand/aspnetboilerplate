@@ -43,6 +43,20 @@ namespace Abp.Dependency
         void AddInterceptor(Type serviceType, Type interceptorType);
 
         /// <summary>
+        /// Add an async interceptor for the specified type
+        /// </summary>
+        /// <typeparam name="TService">Service Type</typeparam>
+        /// <typeparam name="TInterceptor">Interceptor Type</typeparam>
+        void AddAsyncInterceptor<TService, TInterceptor>() where TInterceptor : IAsyncInterceptor;
+
+        /// <summary>
+        /// Add an async interceptor for the specified type
+        /// </summary>
+        /// <param name="serviceType">Service Type</param>
+        /// <param name="interceptorType">Interceptor Type</param>
+        void AddAsyncInterceptor(Type serviceType, Type interceptorType);
+
+        /// <summary>
         /// Registers a type as self registration.
         /// </summary>
         /// <typeparam name="T">Type of the class</typeparam>

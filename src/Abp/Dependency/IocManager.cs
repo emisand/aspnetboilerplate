@@ -43,6 +43,7 @@ namespace Abp.Dependency
 		private readonly List<IConventionalDependencyRegistrar> _conventionalRegistrars;
 
 		private readonly ConcurrentDictionary<Type, List<Type>> _waitRegisterInterceptor;
+		private readonly ConcurrentDictionary<Type, List<Type>> _waitRegisterAsyncInterceptor;
 
 		static IocManager()
 		{
@@ -58,6 +59,7 @@ namespace Abp.Dependency
 		{
 			_conventionalRegistrars = new List<IConventionalDependencyRegistrar>();
 			_waitRegisterInterceptor = new ConcurrentDictionary<Type, List<Type>>();
+			_waitRegisterAsyncInterceptor = new ConcurrentDictionary<Type, List<Type>>();
 		}
 
 		/// <inheritdoc />
@@ -149,12 +151,50 @@ namespace Abp.Dependency
 			});
 
 			_waitRegisterInterceptor.Clear();
+
+			Parallel.ForEach(_waitRegisterAsyncInterceptor, keyValue =>
+			{
+				var proxyBuilder = new DefaultProxyBuilder();
+
+				Type proxyType;
+				if (keyValue.Key.IsInterface)
+					proxyType = proxyBuilder.CreateInterfaceProxyTypeWithTargetInterface(keyValue.Key, ArrayTools.Empty<Type>(), ProxyGenerationOptions.Default);
+				else if (keyValue.Key.IsClass())
+					proxyType = proxyBuilder.CreateClassProxyTypeWithTarget(keyValue.Key, ArrayTools.Empty<Type>(), ProxyGenerationOptions.Default);
+				else
+					throw new ArgumentException($"Type {keyValue.Value} does not support interceptor service integration.");
+
+				var decoratorSetup = Setup.DecoratorWith(useDecorateeReuse: true);
+
+				IocContainer.Register(keyValue.Key, proxyType,
+					made: Made.Of(type => type.GetConstructors().SingleOrDefault(c => c.GetParameters().Length != 0),
+						Parameters.Of.Type<IAsyncInterceptor[]>(request =>
+						{
+							var objects = new List<object>();
+							foreach (var interceptor in keyValue.Value)
+							{
+								objects.Add(request.Container.Resolve(interceptor));
+							}
+
+							return objects.Cast<IAsyncInterceptor>().ToArray();
+						}),
+						PropertiesAndFields.Auto),
+					setup: decoratorSetup);
+			});
+
+			_waitRegisterAsyncInterceptor.Clear();
 		}
 
 		/// <inheritdoc />
 		public void AddInterceptor<TService, TInterceptor>() where TInterceptor : IInterceptor
 		{
 			AddInterceptor(typeof(TService), typeof(TInterceptor));
+		}
+
+		/// <inheritdoc />
+		public void AddAsyncInterceptor<TService, TInterceptor>() where TInterceptor : IAsyncInterceptor
+		{
+			AddAsyncInterceptor(typeof(TService), typeof(TInterceptor));
 		}
 
 		/// <inheritdoc />
@@ -170,6 +210,22 @@ namespace Abp.Dependency
 			else
 			{
 				_waitRegisterInterceptor.TryAdd(serviceType, new List<Type> { interceptorType });
+			}
+		}
+
+		/// <inheritdoc />
+		public void AddAsyncInterceptor(Type serviceType, Type interceptorType)
+		{
+			if (_waitRegisterAsyncInterceptor.ContainsKey(serviceType))
+			{
+				var interceptors = _waitRegisterAsyncInterceptor[serviceType];
+				if (interceptors.Contains(interceptorType)) return;
+
+				_waitRegisterAsyncInterceptor[serviceType].Add(interceptorType);
+			}
+			else
+			{
+				_waitRegisterAsyncInterceptor.TryAdd(serviceType, new List<Type> { interceptorType });
 			}
 		}
 

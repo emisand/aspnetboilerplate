@@ -20,7 +20,7 @@ namespace Abp.Auditing
 
 				if (ShouldIntercept(auditingConfiguration, implementationType))
 				{
-					iocManager.AddInterceptor(type, typeof(AuditingInterceptor));
+					iocManager.AddAsyncInterceptor(type, typeof(AuditingInterceptor));
 				}
 			};
 		}
