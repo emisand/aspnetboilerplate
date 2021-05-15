@@ -21,6 +21,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Remove="PostSharp"></PackageReference>
+  </ItemGroup>
+	
+  <ItemGroup>
     <None Remove="Abp\**\*" />
   </ItemGroup>
 
