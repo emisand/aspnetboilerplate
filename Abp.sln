@@ -111,8 +111,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-items", "solution-
 		.gitignore = .gitignore
 		common.props = common.props
 		configureawait.props = configureawait.props
-		LICENSE = LICENSE
-		postsharp.config = postsharp.config
+		LICENSE.md = LICENSE.md
 		README.md = README.md
 	EndProjectSection
 EndProject

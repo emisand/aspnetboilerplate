@@ -182,7 +182,7 @@ namespace Abp.TestBase
                 using (var uow = uowManager.Object.Begin(options ?? new UnitOfWorkOptions()))
                 {
                     await action();
-                    uow.Complete();
+                    await uow.CompleteAsync();
                 }
             }
         }
@@ -196,7 +196,7 @@ namespace Abp.TestBase
                     using (uowManager.Object.Current.SetTenantId(tenantId))
                     {
                         await action();
-                        uow.Complete();
+                        await uow.CompleteAsync();
                     }
                 }
             }
