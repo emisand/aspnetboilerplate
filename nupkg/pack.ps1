@@ -70,11 +70,12 @@ foreach($project in $projects) {
     & dotnet msbuild /p:Configuration=Release /t:pack /p:IncludeSymbols=true /p:SymbolPackageFormat=snupkg
 
     # Copy nuget package
-    $projectPackPath = Join-Path $projectFolder ("/bin/Release/" + $project + ".*.nupkg")
+    $newProject = $project.Replace("Abp", "Emisand.Abp.PostSharp")
+    $projectPackPath = Join-Path $projectFolder ("/bin/Release/" + $newProject + ".*.nupkg")
     Move-Item $projectPackPath $packFolder
 
 	# Copy symbol package
-    $projectPackPath = Join-Path $projectFolder ("/bin/Release/" + $project + ".*.snupkg")
+    $projectPackPath = Join-Path $projectFolder ("/bin/Release/" + $newProject + ".*.snupkg")
     Move-Item $projectPackPath $packFolder
 }
 

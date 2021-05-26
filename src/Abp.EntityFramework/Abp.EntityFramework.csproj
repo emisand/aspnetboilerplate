@@ -7,8 +7,8 @@
     <TargetFrameworks>net461;netstandard2.1</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Abp.EntityFramework</AssemblyName>
-    <PackageId>Abp.EntityFramework</PackageId>
-    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;EntityFramework;ORM</PackageTags>
+    <PackageId>Emisand.Abp.PostSharp.EntityFramework</PackageId>
+    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;EntityFramework;ORM;postsharp</PackageTags>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

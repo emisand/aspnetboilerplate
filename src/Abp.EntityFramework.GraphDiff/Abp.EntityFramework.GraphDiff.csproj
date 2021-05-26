@@ -7,8 +7,8 @@
     <TargetFramework>net461</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Abp.EntityFramework.GraphDiff</AssemblyName>
-    <PackageId>Abp.EntityFramework.GraphDiff</PackageId>
-    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;GraphDiff;detached graphs</PackageTags>
+    <PackageId>Emisand.Abp.PostSharp.EntityFramework.GraphDiff</PackageId>
+    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;GraphDiff;detached graphs;postsharp</PackageTags>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>

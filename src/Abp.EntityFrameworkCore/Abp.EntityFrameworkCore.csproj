@@ -7,8 +7,8 @@
     <TargetFramework>net5.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Abp.EntityFrameworkCore</AssemblyName>
-    <PackageId>Abp.EntityFrameworkCore</PackageId>
-    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;EntityFrameworkCore;ORM;Entity Framework Core</PackageTags>
+    <PackageId>Emisand.Abp.PostSharp.EntityFrameworkCore</PackageId>
+    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;EntityFrameworkCore;ORM;Entity Framework Core;postsharp</PackageTags>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

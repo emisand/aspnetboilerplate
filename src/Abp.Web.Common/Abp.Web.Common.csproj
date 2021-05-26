@@ -7,8 +7,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Abp.Web.Common</AssemblyName>
-    <PackageId>Abp.Web.Common</PackageId>
-    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;web</PackageTags>
+    <PackageId>Emisand.Abp.PostSharp.Web.Common</PackageId>
+    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;web;postsharp</PackageTags>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>

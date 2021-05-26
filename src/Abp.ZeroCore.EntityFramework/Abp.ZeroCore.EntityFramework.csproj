@@ -8,8 +8,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RootNamespace>Abp</RootNamespace>
     <AssemblyName>Abp.ZeroCore.EntityFramework</AssemblyName>
-    <PackageId>Abp.ZeroCore.EntityFramework</PackageId>
-    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;multitenancy;user management;role management;identity;entity framework</PackageTags>
+    <PackageId>Emisand.Abp.PostSharp.ZeroCore.EntityFramework</PackageId>
+    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;multitenancy;user management;role management;identity;entity framework;postsharp</PackageTags>
     <Description>Abp.ZeroCore.EntityFramework</Description>
   </PropertyGroup>
 

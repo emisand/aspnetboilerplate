@@ -7,8 +7,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Abp.HangFire.AspNetCore</AssemblyName>
-    <PackageId>Abp.HangFire.AspNetCore</PackageId>
-    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;HangFire;background jobs; aspnet core</PackageTags>
+    <PackageId>Emisand.Abp.PostSharp.HangFire.AspNetCore</PackageId>
+    <PackageTags>asp.net;asp.net mvc;boilerplate;application framework;web framework;framework;domain driven design;HangFire;background jobs; aspnet core;postsharp</PackageTags>
     <RootNamespace>Abp</RootNamespace>
     <Description>Abp.HangFire.AspNetCore</Description>
   </PropertyGroup>
